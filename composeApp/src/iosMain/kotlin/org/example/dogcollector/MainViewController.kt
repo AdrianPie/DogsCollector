@@ -6,10 +6,11 @@ import io.ktor.client.engine.darwin.Darwin
 import org.example.composesharedproject.networking.RandomDogClient
 import org.example.composesharedproject.networking.createHttpClient
 import org.example.dogcollector.db.getDogsDatabase
+import org.example.dogcollector.di.initializeKoin
 
 
-fun MainViewController() = ComposeUIViewController {
-    Graph.provideDogsRepository(getDogsDatabase())
-    Graph.provideRandomDogClient(createHttpClient(Darwin.create()))
+fun MainViewController() = ComposeUIViewController(
+    configure = { initializeKoin() }
+) {
     App()
 }

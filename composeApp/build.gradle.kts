@@ -45,7 +45,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+
 
             implementation(libs.ktor.client.okhttp)
         }
@@ -143,6 +143,8 @@ room {
 }
 
 dependencies {
-    ksp(libs.room.compiler)
-    kspCommonMainMetadata(project(":composeApp"))
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosX64", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
 }

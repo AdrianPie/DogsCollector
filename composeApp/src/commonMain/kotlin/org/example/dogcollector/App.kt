@@ -46,10 +46,7 @@ fun App(
 ) {
     MaterialTheme {
 
-       val mainViewModel = viewModel<MainViewModel>( factory = MainViewModelFactory(
-           Graph.dogsUseCase,
-           Graph.randomDogClient))
-       MainScreen(mainViewModel)
+       //MainScreen()
     }
 }
 
@@ -117,5 +114,4 @@ fun MainScreen(
             }
         }
     }
-
 }
