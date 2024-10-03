@@ -1,9 +1,5 @@
-package org.example.dogcollector.presentation
+package org.example.dogcollector.presentation.screen.home
 
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -21,7 +17,7 @@ import org.example.dogcollector.data.usecase.GetAllDogsUseCase
 import org.example.dogcollector.data.usecase.UpsertDogUseCase
 import kotlin.reflect.KClass
 
-class MainViewModel(
+class HomeViewModel(
     private val deleteDogUseCase: DeleteDogUseCase,
     private val getAllDogsUseCase: GetAllDogsUseCase,
     private val upsertDogUseCase: UpsertDogUseCase,
@@ -93,7 +89,7 @@ class MainViewModelFactory(
     private val client: RandomDogClient
 ):ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
-        return MainViewModel(
+        return HomeViewModel(
             dogUseCase.deleteDogUseCase,
             dogUseCase.getAllDogsUseCase,
             dogUseCase.upsertDogUseCase,
