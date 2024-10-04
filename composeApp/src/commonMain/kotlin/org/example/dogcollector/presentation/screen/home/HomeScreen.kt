@@ -29,12 +29,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.example.dogcollector.data.model.Dog
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable
-fun HomeScreen(
-    viewModel: HomeViewModel,
-) {
+fun HomeScreen() {
+    val viewModel = koinViewModel<HomeViewModel>()
     val dogs by viewModel.dogList.collectAsState()
     val scope = rememberCoroutineScope()
 
@@ -63,7 +63,7 @@ fun HomeScreen(
         horizontalAlignment =  Alignment.CenterHorizontally,
     ) {
         Button(onClick = {
-            viewModel.getRandomDog()
+//            viewModel.getRandomDog()
         }
         ) {
             Text("Add Dog")

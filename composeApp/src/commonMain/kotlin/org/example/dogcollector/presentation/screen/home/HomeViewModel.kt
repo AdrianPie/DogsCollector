@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import org.example.composesharedproject.networking.RandomDogClient
 import org.example.composesharedproject.util.onError
 import org.example.composesharedproject.util.onSuccess
+import org.example.dogcollector.data.db.DogsDatabase
 import org.example.dogcollector.data.model.Dog
 import org.example.dogcollector.data.usecase.DeleteDogUseCase
 import org.example.dogcollector.data.usecase.DogUseCase
@@ -18,10 +19,11 @@ import org.example.dogcollector.data.usecase.UpsertDogUseCase
 import kotlin.reflect.KClass
 
 class HomeViewModel(
-    private val deleteDogUseCase: DeleteDogUseCase,
-    private val getAllDogsUseCase: GetAllDogsUseCase,
-    private val upsertDogUseCase: UpsertDogUseCase,
-    private val client: RandomDogClient
+//    private val deleteDogUseCase: DeleteDogUseCase,
+//    private val getAllDogsUseCase: GetAllDogsUseCase,
+//    private val upsertDogUseCase: UpsertDogUseCase,
+    private val dataBase: DogsDatabase,
+//    private val client: RandomDogClient
 ): ViewModel() {
 
     private var _dogList = MutableStateFlow<List<Dog>>(emptyList())
@@ -41,37 +43,42 @@ class HomeViewModel(
 
     fun deleteDog(dog: Dog) {
         viewModelScope.launch {
-            deleteDogUseCase.invoke(dog)
+//            deleteDogUseCase.invoke(dog)
+            dataBase.dogsDao().delete(dog)
         }
     }
     fun insertDog(dog: Dog){
         viewModelScope.launch {
-            upsertDogUseCase.invoke(dog)
+//            upsertDogUseCase.invoke(dog)
+            dataBase.dogsDao().upsert(dog)
         }
-    }
 
-    fun getRandomDog(){
-        viewModelScope.launch {
-            client.getRandomDogPhoto().onSuccess {
-                _randomDog.value = it
-                extractDogBreed(it)
-            }.onError {
-                _randomDog.value = it.name
-            }
-        }
     }
+//
+//    fun getRandomDog(){
+//        viewModelScope.launch {
+//            client.getRandomDogPhoto().onSuccess {
+//                _randomDog.value = it
+//                extractDogBreed(it)
+//            }.onError {
+//                _randomDog.value = it.name
+//            }
+//        }
+//    }
     private fun getAllDogs() {
         viewModelScope.launch {
-             getAllDogsUseCase.invoke().collect{
-                 _dogList.value = it
-             }
+            dataBase.dogsDao().getAllDogs().collect{
+                _dogList.value = it
+            }
+//             getAllDogsUseCase.invoke().collect{
+//                 _dogList.value = it
+//             }
         }
     }
 
     private fun extractDogBreed(url: String) {
 
         val parts = url.split("/")
-
 
         val breedPart = parts.getOrNull(parts.indexOf("breeds") + 1)
 
@@ -83,17 +90,3 @@ class HomeViewModel(
     }
 }
 
-@Suppress("UNCHECKED_CAST")
-class MainViewModelFactory(
-    private val dogUseCase: DogUseCase,
-    private val client: RandomDogClient
-):ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: KClass<T>, extras: CreationExtras): T {
-        return HomeViewModel(
-            dogUseCase.deleteDogUseCase,
-            dogUseCase.getAllDogsUseCase,
-            dogUseCase.upsertDogUseCase,
-            client
-        ) as T
-    }
-}
