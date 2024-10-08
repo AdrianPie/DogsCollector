@@ -34,5 +34,4 @@ fun initializeKoin(
         config?.invoke(this)
         modules(targetModule, sharedModule)
     }
-
 }
