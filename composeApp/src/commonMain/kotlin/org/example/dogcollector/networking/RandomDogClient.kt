@@ -1,13 +1,14 @@
-package org.example.composesharedproject.networking
+package org.example.dogcollector.networking
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
+import org.example.composesharedproject.networking.RandomDog
 import org.example.composesharedproject.util.NetworkError
 import org.example.composesharedproject.util.Result
+import kotlin.math.log
 
 class RandomDogClient(
     private val httpClient: HttpClient

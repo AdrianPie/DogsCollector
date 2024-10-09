@@ -1,5 +1,6 @@
 package org.example.dogcollector.di
 
+import org.example.dogcollector.data.db.DogsDatabase
 import org.example.dogcollector.data.db.getRoomDataBase
 import org.example.dogcollector.data.repository.DogsRepository
 import org.example.dogcollector.data.usecase.DeleteDogUseCase
@@ -18,12 +19,12 @@ expect val targetModule: Module
 
 val sharedModule = module {
     single { getRoomDataBase(get()) }
+    single { get<DogsDatabase>().dogsDao() }
+    single { DogsRepository(get()) }
 
-//    single { DogsRepository(get()) }
-
-//    single { DeleteDogUseCase(get()) }
-//    single { GetAllDogsUseCase(get()) }
-//    single { UpsertDogUseCase(get()) }
+    single { DeleteDogUseCase(get()) }
+    single { GetAllDogsUseCase(get()) }
+    single { UpsertDogUseCase(get()) }
     viewModelOf(::HomeViewModel)
 }
 

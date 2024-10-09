@@ -63,7 +63,7 @@ fun HomeScreen() {
         horizontalAlignment =  Alignment.CenterHorizontally,
     ) {
         Button(onClick = {
-//            viewModel.getRandomDog()
+            viewModel.getRandomDog()
         }
         ) {
             Text("Add Dog")
@@ -74,6 +74,7 @@ fun HomeScreen() {
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color.Gray)
         ){
+
             coil3.compose.AsyncImage(
                 modifier = Modifier.fillMaxSize(),
                 model = randomDog,
@@ -87,6 +88,7 @@ fun HomeScreen() {
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(16.dp)
         ) {
+
             items(dogs){ dog ->
                 Text(
                     text = dog.photoURL,
