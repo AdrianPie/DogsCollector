@@ -15,12 +15,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +44,7 @@ fun HomeScreen() {
 
     val randomDog by viewModel.randomDog.collectAsState()
     val randomDogBreed by viewModel.randomDogBreed.collectAsState()
+    val testTextChat by viewModel.test.collectAsState()
 
     LaunchedEffect(true){
         val dogsList = listOf(
@@ -82,8 +87,12 @@ fun HomeScreen() {
                 contentScale = ContentScale.Crop,
             )
         }
-        Text(randomDogBreed)
-
+        ChatInputField(
+            onSendMessage = { message ->
+               viewModel.getChatResponse(message)
+            }
+        )
+        Text(text = testTextChat)
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(16.dp)
@@ -102,6 +111,37 @@ fun HomeScreen() {
                         .padding(16.dp)
                 )
             }
+        }
+    }
+}
+@Composable
+fun ChatInputField(
+    label: String = "Enter your message...",
+    onSendMessage: (String) -> Unit
+) {
+    var text by remember { mutableStateOf("") }
+
+    Column {
+        // TextField where the user can type
+        TextField(
+            value = text,
+            onValueChange = { newText -> text = newText },
+            label = { Text(label) },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+            maxLines = 1
+        )
+
+        // Button to send the message
+        Button(
+            onClick = {
+                onSendMessage(text) // Invoke the callback with the current text
+                text = "" // Clear the input field after sending
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = text.isNotEmpty() // Disable the button if the text field is empty
+        ) {
+            Text("Send")
         }
     }
 }

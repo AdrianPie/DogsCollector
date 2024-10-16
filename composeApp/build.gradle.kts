@@ -55,6 +55,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation (libs.openai.client)
 
             implementation(libs.ktor.client.core)
             implementation(libs.room.runtime)

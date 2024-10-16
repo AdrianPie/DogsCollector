@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.example.composesharedproject.util.onError
 import org.example.composesharedproject.util.onSuccess
+import org.example.dogcollector.chatGpt.ChatGptClient
+import org.example.dogcollector.chatGpt.Message
 import org.example.dogcollector.data.db.DogsDatabase
 import org.example.dogcollector.data.model.Dog
 import org.example.dogcollector.data.usecase.DeleteDogUseCase
@@ -19,7 +21,8 @@ class HomeViewModel(
     private val getAllDogsUseCase: GetAllDogsUseCase,
     private val upsertDogUseCase: UpsertDogUseCase,
     private val dataBase: DogsDatabase,
-    private val client: RandomDogClient
+    private val client: RandomDogClient,
+    private val chatClient: ChatGptClient
 ): ViewModel() {
 
     private var _dogList = MutableStateFlow<List<Dog>>(emptyList())
@@ -31,10 +34,23 @@ class HomeViewModel(
     private var _randomDogBreed = MutableStateFlow(String())
     val randomDogBreed = _randomDogBreed.asStateFlow()
 
+    private var _test = MutableStateFlow(String())
+    val test = _test.asStateFlow()
+
 
 
     init {
         getAllDogs()
+    }
+
+    fun getChatResponse(message: String){
+        val messages = listOf(
+            Message("user", message)
+        )
+        viewModelScope.launch {
+          val response = chatClient.sendChatMessage(messages)
+            _test.value = response.choices[0].message.content
+        }
     }
 
     fun deleteDog(dog: Dog) {
