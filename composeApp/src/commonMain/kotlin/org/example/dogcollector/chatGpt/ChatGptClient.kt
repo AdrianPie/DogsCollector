@@ -14,7 +14,7 @@ import kotlinx.serialization.SerializationException
 import org.example.composesharedproject.networking.RandomDog
 import org.example.composesharedproject.util.NetworkError
 import org.example.composesharedproject.util.Result
-const val apiKey = "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"
+
 class ChatGptClient(
     private val httpClient: HttpClient
 ) {
