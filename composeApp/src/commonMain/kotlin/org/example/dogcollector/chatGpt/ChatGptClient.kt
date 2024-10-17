@@ -18,7 +18,7 @@ import org.example.composesharedproject.util.Error
 import org.example.composesharedproject.util.NetworkError
 import org.example.composesharedproject.util.Result
 
-const val apiKey = "x"
+
 class ChatGptClient(
     private val httpClient: HttpClient
 ) {
@@ -26,7 +26,7 @@ class ChatGptClient(
 
             val response: HttpResponse = try {
                 httpClient.post("https://api.opena.com/v1/chat/completions") {
-                    header(HttpHeaders.Authorization, "Bearer $apiKey")
+                    header(HttpHeaders.Authorization, "Bearer ")
                     contentType(ContentType.Application.Json)
                     setBody(
                         ChatRequest(
