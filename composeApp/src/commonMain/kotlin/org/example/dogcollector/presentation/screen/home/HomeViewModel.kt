@@ -2,6 +2,13 @@ package org.example.dogcollector.presentation.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aallam.openai.api.chat.ChatCompletion
+import com.aallam.openai.api.chat.ChatCompletionRequest
+import com.aallam.openai.api.chat.ChatMessage
+import com.aallam.openai.api.chat.ChatRole
+import com.aallam.openai.api.http.Timeout
+import com.aallam.openai.api.model.ModelId
+import com.aallam.openai.client.OpenAI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -9,12 +16,14 @@ import org.example.composesharedproject.util.onError
 import org.example.composesharedproject.util.onSuccess
 import org.example.dogcollector.chatGpt.ChatGptClient
 import org.example.dogcollector.chatGpt.Message
+import org.example.dogcollector.chatGpt.apiKey
 import org.example.dogcollector.data.db.DogsDatabase
 import org.example.dogcollector.data.model.Dog
 import org.example.dogcollector.data.usecase.DeleteDogUseCase
 import org.example.dogcollector.data.usecase.GetAllDogsUseCase
 import org.example.dogcollector.data.usecase.UpsertDogUseCase
 import org.example.dogcollector.networking.RandomDogClient
+import kotlin.time.Duration.Companion.seconds
 
 class HomeViewModel(
     private val deleteDogUseCase: DeleteDogUseCase,
@@ -34,7 +43,7 @@ class HomeViewModel(
     private var _randomDogBreed = MutableStateFlow(String())
     val randomDogBreed = _randomDogBreed.asStateFlow()
 
-    private var _test = MutableStateFlow(String())
+    private var _test = MutableStateFlow("gowno")
     val test = _test.asStateFlow()
 
 
@@ -43,13 +52,41 @@ class HomeViewModel(
         getAllDogs()
     }
 
+    fun getChatResponseTwo(message: String){
+        viewModelScope.launch {
+            val response = chatClient.sendChatMessage(
+                listOf(
+                    Message(
+                        role = "user",
+                        content = message
+                    )
+                )
+            )
+            response.onSuccess {
+                _test.value = it.choices.first().message.content ?: "No response"
+            }.onError {
+                _test.value = it.toString()
+            }
+        }
+    }
     fun getChatResponse(message: String){
-        val messages = listOf(
-            Message("user", message)
+        val openAI = OpenAI(
+           token =  apiKey,
+           timeout = Timeout(socket = 60.seconds )
         )
         viewModelScope.launch {
-          val response = chatClient.sendChatMessage(messages)
-            _test.value = response.choices[0].message.content
+            val chatCompletionRequest = ChatCompletionRequest(
+                model = ModelId("gpt-3.5-turbo"),
+                messages = listOf(
+                    ChatMessage(
+                        role = ChatRole.User,
+                        content = message
+                    )
+                )
+            )
+            val completion: ChatCompletion = openAI.chatCompletion(chatCompletionRequest)
+            _test.value = completion.choices.first().message.content ?: "No response"
+
         }
     }
 

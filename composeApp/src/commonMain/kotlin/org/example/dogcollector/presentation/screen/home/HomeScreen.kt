@@ -90,6 +90,9 @@ fun HomeScreen() {
         ChatInputField(
             onSendMessage = { message ->
                viewModel.getChatResponse(message)
+            },
+            onSendMessage2 = { message ->
+                viewModel.getChatResponseTwo(message)
             }
         )
         Text(text = testTextChat)
@@ -117,7 +120,8 @@ fun HomeScreen() {
 @Composable
 fun ChatInputField(
     label: String = "Enter your message...",
-    onSendMessage: (String) -> Unit
+    onSendMessage: (String) -> Unit,
+    onSendMessage2: (String) -> Unit
 ) {
     var text by remember { mutableStateOf("") }
 
@@ -142,6 +146,16 @@ fun ChatInputField(
             enabled = text.isNotEmpty() // Disable the button if the text field is empty
         ) {
             Text("Send")
+        }
+        Button(
+            onClick = {
+                onSendMessage2(text) // Invoke the callback with the current text
+                text = "" // Clear the input field after sending
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = text.isNotEmpty() // Disable the button if the text field is empty
+        ) {
+            Text("Send2")
         }
     }
 }
