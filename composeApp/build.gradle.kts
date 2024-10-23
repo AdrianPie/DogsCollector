@@ -42,7 +42,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.koin.android)
-
+            implementation (libs.ktor.client.android)
 
             implementation(libs.ktor.client.okhttp)
         }
@@ -60,6 +60,7 @@ kotlin {
             implementation(libs.ktor.client.core)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
+
 
             implementation(libs.bundles.ktor)
 

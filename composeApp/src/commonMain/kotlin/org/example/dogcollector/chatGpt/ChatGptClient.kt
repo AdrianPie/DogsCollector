@@ -25,12 +25,12 @@ class ChatGptClient(
     suspend fun sendChatMessage(messages: List<Message>): Result<ChatResponse, Error> {
 
             val response: HttpResponse = try {
-                httpClient.post("https://api.opena.com/v1/chat/completions") {
+                httpClient.post("https://api.openai.com/v1/chat/completions") {
                     header(HttpHeaders.Authorization, "Bearer ")
                     contentType(ContentType.Application.Json)
                     setBody(
                         ChatRequest(
-                            model = "gpt-3.5-turbo",
+                            model = "gpt-3w.5-turbo",
                             messages = messages
                         )
                     )

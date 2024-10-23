@@ -16,7 +16,6 @@ import org.example.composesharedproject.util.onError
 import org.example.composesharedproject.util.onSuccess
 import org.example.dogcollector.chatGpt.ChatGptClient
 import org.example.dogcollector.chatGpt.Message
-import org.example.dogcollector.chatGpt.apiKey
 import org.example.dogcollector.data.db.DogsDatabase
 import org.example.dogcollector.data.model.Dog
 import org.example.dogcollector.data.usecase.DeleteDogUseCase
@@ -71,7 +70,7 @@ class HomeViewModel(
     }
     fun getChatResponse(message: String){
         val openAI = OpenAI(
-           token =  apiKey,
+           token =  "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",
            timeout = Timeout(socket = 60.seconds )
         )
         viewModelScope.launch {
