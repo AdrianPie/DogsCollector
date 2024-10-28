@@ -70,7 +70,7 @@ class HomeViewModel(
     }
     fun getChatResponse(message: String){
         val openAI = OpenAI(
-           token =  "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",
+           token =  "test",
            timeout = Timeout(socket = 60.seconds )
         )
         viewModelScope.launch {

@@ -10,6 +10,7 @@ import org.koin.dsl.module
 
 actual val targetModule = module {
     getDogsDatabase()
+
     single { RandomDogClient(createHttpClient(Darwin.create())) }
     single { ChatGptClient(createHttpClient(Darwin.create())) }
 }

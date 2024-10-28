@@ -87,6 +87,7 @@ kotlin {
         }
     }
 }
+val openAiApiKey = project.findProperty("openai.api_key") as String? ?: ""
 
 android {
     namespace = "org.example.dogcollector"
@@ -97,6 +98,7 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
+        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
         applicationId = "org.example.dogcollector"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
