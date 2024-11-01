@@ -1,4 +1,4 @@
-package org.example.dogcollector.presentation.screen.home
+package org.example.dogcollector.presentation.tab.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -92,15 +92,12 @@ class HomeViewModel(
     fun deleteDog(dog: Dog) {
         viewModelScope.launch {
             deleteDogUseCase.invoke(dog)
-//            dataBase.dogsDao().delete(dog)
         }
     }
     fun insertDog(dog: Dog){
         viewModelScope.launch {
             upsertDogUseCase.invoke(dog)
-//            dataBase.dogsDao().upsert(dog)
         }
-
     }
 
     fun getRandomDog(){

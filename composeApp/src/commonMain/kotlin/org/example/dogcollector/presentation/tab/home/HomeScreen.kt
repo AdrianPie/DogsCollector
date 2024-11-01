@@ -1,4 +1,4 @@
-package org.example.dogcollector.presentation.screen.home
+package org.example.dogcollector.presentation.tab.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,92 +31,34 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.launch
 import org.example.dogcollector.data.model.Dog
+import org.example.dogcollector.presentation.screen.screenTwo.TestScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 
-@Composable
-fun HomeScreen() {
-    val viewModel = koinViewModel<HomeViewModel>()
-    val dogs by viewModel.dogList.collectAsState()
-    val scope = rememberCoroutineScope()
-
-    val randomDog by viewModel.randomDog.collectAsState()
-    val randomDogBreed by viewModel.randomDogBreed.collectAsState()
-    val testTextChat by viewModel.test.collectAsState()
-
-    LaunchedEffect(true){
-        val dogsList = listOf(
-            Dog(photoURL = "https://images.dog.ceo/breeds/terrier-irish/n02093991_1003.jpg"),
-
-            )
-        dogsList.forEach {
-            viewModel.insertDog(it)
-        }
-    }
-    Scaffold(
-        topBar = {
-            TopAppBar(title = { Text(text = "Dog Collector") })
-        }
-    ) {
-
-    }
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp),
-        horizontalAlignment =  Alignment.CenterHorizontally,
-    ) {
-        Button(onClick = {
-            viewModel.getRandomDog()
-        }
-        ) {
-            Text("Add Dog")
-        }
+class HomeScreen(): Screen{
+    @Composable
+    override fun Content() {
+        val viewModel = koinViewModel<HomeViewModel>()
+        val navigator = LocalNavigator.currentOrThrow
         Box(
-            modifier = Modifier
-                .size(250.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(Color.Gray)
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ){
-
-            coil3.compose.AsyncImage(
-                modifier = Modifier.fillMaxSize(),
-                model = randomDog,
-                contentDescription = "test",
-                contentScale = ContentScale.Crop,
-            )
-        }
-        ChatInputField(
-            onSendMessage = { message ->
-               viewModel.getChatResponse(message)
-            },
-            onSendMessage2 = { message ->
-                viewModel.getChatResponseTwo(message)
-            }
-        )
-        Text(text = testTextChat)
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-
-            items(dogs){ dog ->
-                Text(
-                    text = dog.photoURL,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            scope.launch {
-                                viewModel.deleteDog(dog)
-                            }
-                        }
-                        .padding(16.dp)
-                )
+            Text("Home Screen")
+            Button(
+                onClick = { navigator.push(TestScreen(2))}
+            ){
+                Text("Go to dupa")
             }
         }
     }
 }
+
 @Composable
 fun ChatInputField(
     label: String = "Enter your message...",

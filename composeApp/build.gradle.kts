@@ -7,7 +7,6 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
@@ -41,10 +40,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
 
-            implementation(libs.koin.android)
-            implementation (libs.ktor.client.android)
 
-            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,12 +51,11 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
             implementation (libs.openai.client)
 
-            implementation(libs.ktor.client.core)
             implementation(libs.room.runtime)
             implementation(libs.sqlite.bundled)
-
 
             implementation(libs.bundles.ktor)
 
@@ -75,6 +70,11 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
             implementation(libs.coil.network.ktor)
+
+            implementation(libs.voyager.tab.navigator)
+            implementation(libs.voyager.bottom.sheet.navigator)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -87,7 +87,7 @@ kotlin {
         }
     }
 }
-val openAiApiKey = project.findProperty("openai.api_key") as String? ?: ""
+
 
 android {
     namespace = "org.example.dogcollector"
@@ -98,7 +98,6 @@ android {
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
 
     defaultConfig {
-        buildConfigField("String", "OPENAI_API_KEY", "\"$openAiApiKey\"")
         applicationId = "org.example.dogcollector"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()

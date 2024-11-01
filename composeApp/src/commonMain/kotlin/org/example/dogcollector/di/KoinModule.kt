@@ -7,7 +7,7 @@ import org.example.dogcollector.data.repository.DogsRepository
 import org.example.dogcollector.data.usecase.DeleteDogUseCase
 import org.example.dogcollector.data.usecase.GetAllDogsUseCase
 import org.example.dogcollector.data.usecase.UpsertDogUseCase
-import org.example.dogcollector.presentation.screen.home.HomeViewModel
+import org.example.dogcollector.presentation.tab.home.HomeViewModel
 
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
