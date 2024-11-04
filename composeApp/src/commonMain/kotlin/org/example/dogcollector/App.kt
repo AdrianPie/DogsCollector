@@ -1,12 +1,16 @@
 package org.example.dogcollector
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.CurrentTab
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
@@ -29,6 +33,7 @@ fun App(
     MaterialTheme {
         TabNavigator(HomeTab){
             Scaffold(
+                backgroundColor =  Color.Cyan,
                 bottomBar = {
                     BottomNavigation {
                         TabNavigationItem(HomeTab)
