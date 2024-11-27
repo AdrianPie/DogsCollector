@@ -22,12 +22,12 @@ data class TestScreen(val test: Int): Screen {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(text = "Test") },
+                    title = { Text(text = "Test2") },
                     navigationIcon = {
                         IconButton(onClick = { navigator.pop() } ){
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back"
+                                contentDescription = "Back2"
                             )
                         }
                     }

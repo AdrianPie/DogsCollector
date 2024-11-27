@@ -30,7 +30,7 @@ object SettingTab : Tab {
         get() =
             TabOptions(
                 index = 2u,
-                title = "Setting",
+                title = "Setting 12",
                 icon =  null,
             )
 }
