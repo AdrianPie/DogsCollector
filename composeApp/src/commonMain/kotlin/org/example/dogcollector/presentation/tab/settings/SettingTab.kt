@@ -21,7 +21,7 @@ object SettingTab : Tab {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ){
-            Text("Setting tab")
+            Text("Setting tab2")
         }
     }
 
@@ -30,7 +30,7 @@ object SettingTab : Tab {
         get() =
             TabOptions(
                 index = 2u,
-                title = "Setting 12",
+                title = "Setting",
                 icon =  null,
             )
 }
