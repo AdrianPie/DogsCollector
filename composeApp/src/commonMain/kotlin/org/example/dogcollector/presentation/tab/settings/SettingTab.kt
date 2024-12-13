@@ -21,7 +21,7 @@ object SettingTab : Tab {
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ){
-            Text("Setting tab23")
+            Text("Setting tab2322")
         }
     }
 
